@@ -1,30 +1,4 @@
-// Add this at the beginning of your JavaScript file
-function initializeResize() {
-    const handle = document.querySelector('.resize-handle');
-    let startX, startWidth;
-
-    handle.addEventListener('mousedown', function(e) {
-        startX = e.clientX;
-        startWidth = document.documentElement.clientWidth;
-        
-        document.addEventListener('mousemove', resize);
-        document.addEventListener('mouseup', stopResize);
-    });
-
-    function resize(e) {
-        const width = startWidth + (e.clientX - startX);
-        document.documentElement.style.width = `${width}px`;
-        // Chrome will handle the minimum and maximum width constraints
-    }
-
-    function stopResize() {
-        document.removeEventListener('mousemove', resize);
-        document.removeEventListener('mouseup', stopResize);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    initializeResize();
     
     // Restore saved data when popup opens
     restoreSavedData();
