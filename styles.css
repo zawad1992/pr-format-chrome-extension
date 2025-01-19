@@ -1,0 +1,182 @@
+.container-fluid {
+    padding: 15px;
+    max-width: 100%;
+    min-width: 760px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.btn-clear {
+    color: #dc3545;
+    border-color: #dc3545;
+    background-color: transparent;
+}
+
+.btn-clear:hover {
+    color: white;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Reduce header size */
+h1 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+h5.card-title {
+    font-size: 1rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reduce form elements size */
+.form-control, .form-select {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    min-height: 30px;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Adjust spacing */
+.mb-3 {
+    margin-bottom: 0.75rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Make buttons smaller */
+.btn {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.btn-sm {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8125rem;
+}
+
+/* Adjust card padding */
+.card-body {
+    padding: 0.75rem;
+}
+
+/* Type tags */
+.type-tag {
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.8125rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Tag colors when selected */
+.tag-bug.selected {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.tag-task.selected {
+    background-color: #0d6efd !important;
+    color: white !important;
+}
+
+.tag-feature.selected {
+    background-color: #198754 !important;
+    color: white !important;
+}
+
+.tag-dependency.selected {
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+
+/* Output sections */
+.output-section {
+    white-space: pre-wrap;
+    font-family: monospace;
+    min-height: 80px;
+    font-size: 0.875rem;
+    padding: 0.5rem !important;
+}
+
+/* Success messages */
+.copy-success-title, 
+.copy-success-desc {
+    display: none;
+    font-size: 0.875rem;
+}
+
+/* Card styling */
+.card {
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Row spacing */
+.row.g-4 {
+    gap: 0.75rem !important;
+}
+
+/* Form check adjustments */
+.form-check {
+    min-height: auto;
+    padding-left: 1.4rem;
+}
+
+.form-check-input {
+    margin-top: 0.2rem;
+    margin-left: -1.4rem;
+}
+
+.form-check-label {
+    font-size: 0.875rem;
+}
+
+/* Ticket container spacing */
+.ticket-container .row.g-2 {
+    gap: 0.5rem !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .row {
+        margin: 0;
+    }
+}
