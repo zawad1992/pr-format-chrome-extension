@@ -1,8 +1,18 @@
+body {
+    min-width: 300px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 .container-fluid {
     padding: 15px;
     max-width: 100%;
-    min-width: 760px;
+    min-width: 300px;
+    height: 100vh;
+    overflow-y: auto;
 }
+
 
 .header-container {
     display: flex;
@@ -126,6 +136,27 @@ h5.card-title {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+/* Make the layout stack vertically in sidebar */
+.row.g-4 {
+    flex-direction: column;
+}
+
+.col-md-6 {
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+}
+
+/* Adjust card heights */
+.card {
+    margin-bottom: 1rem;
+}
+
+.card.h-100 {
+    height: auto !important;
+}
+
+
 /* Row spacing */
 .row.g-4 {
     gap: 0.75rem !important;
@@ -179,4 +210,20 @@ h5.card-title {
     .row {
         margin: 0;
     }
+}
+
+/* Add resize handle styles */
+.resize-handle {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    cursor: ew-resize;
+    background-color: transparent;
+    transition: background-color 0.2s;
+}
+
+.resize-handle:hover {
+    background-color: #0d6efd;
 }
