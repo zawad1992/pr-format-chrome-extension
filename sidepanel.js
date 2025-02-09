@@ -267,6 +267,7 @@ ${ticketSection}
                     <select class="form-select project-prefix">
                         <option value="">SELECT</option>
                         <option value="DRCOOL">DRCOOL</option>
+                        <option value="IP">IP</option>
                         <option value="N/A">N/A</option>
                     </select>
                 </div>
@@ -299,6 +300,9 @@ ${ticketSection}
   function checkPendingTickets() {
     chrome.storage.local.get(['pendingTickets', 'formData'], (result) => {
         const pendingTickets = result.pendingTickets || [];
+
+        console.log('Pending tickets:', pendingTickets);
+
         const formData = result.formData || { tickets: [] };
         
         if (pendingTickets.length > 0) {
