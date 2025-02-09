@@ -3,11 +3,19 @@
     "name": "PR Format Generator",
     "version": "1.0",
     "description": "Generate formatted pull request titles and descriptions",
+    "content_scripts": [{
+        "matches": ["*://*.atlassian.net/*"],
+        "js": ["content-script.js"]
+    }],
     "permissions": [
       "clipboardWrite",
       "storage",
       "sidePanel",
-      "tabs"
+      "tabs",
+      "activeTab"
+    ],
+    "host_permissions": [
+        "*://*.atlassian.net/*"
     ],
     "side_panel": {
       "default_path": "sidepanel.html"
