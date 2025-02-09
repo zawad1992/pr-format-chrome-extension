@@ -4,7 +4,7 @@
 const CONFIG = {
     BUTTON_STYLES: {
         ADD: {
-            background: '#0052CC',
+            background: '#a103fc',
             text: '+ PR'
         },
         REMOVE: {
@@ -104,6 +104,7 @@ const handleClick = async (ticketInfo, isAdded) => {
     const pendingTickets = result.pendingTickets || [];
     const formData = result.formData || { tickets: [] };
 
+    console.log('pendingTickets', pendingTickets);  
     // Check if ticket is already in form data
     const ticketExists = formData.tickets.some(ticket => 
         `${ticket.prefix}-${ticket.number}` === ticketInfo.id
@@ -146,6 +147,7 @@ const updateButton = (isAdded) => {
             e.stopPropagation();
             const ticketInfo = getTicketInfo();
             if (ticketInfo) {
+                console.log('ticketInfo', ticketInfo);
                 await handleClick(ticketInfo, isAdded);
             }
         });
