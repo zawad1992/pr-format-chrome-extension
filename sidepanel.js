@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
     // Restore saved data when popup opens
     restoreSavedData();
+
+    // Check for pending tickets periodically
+    setInterval(checkPendingTickets, 1000);
 
 
     // Handle project prefix selection
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <select class="form-select project-prefix">
                             <option value="">SELECT</option>
                             <option value="DRCOOL">DRCOOL</option>
+                            <option value="IP">IP</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </div>
@@ -96,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       chrome.storage.local.set({ formData: formData });
     }
+    
 
     // Function to restore saved data
     function restoreSavedData() {
@@ -152,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
               document.getElementById('generate').click();
           }
       });
-  }
+    }
 
 
     // Generate format
@@ -290,4 +294,98 @@ ${ticketSection}
     // Clear stored data
     chrome.storage.local.remove('formData');
   });
+
+
+  function checkPendingTickets() {
+    chrome.storage.local.get(['pendingTickets', 'formData'], (result) => {
+        const pendingTickets = result.pendingTickets || [];
+        const formData = result.formData || { tickets: [] };
+        
+        if (pendingTickets.length > 0) {
+            pendingTickets.forEach(ticket => {
+                if (ticket.action === 'add') {
+                    // Find first empty ticket container or add new one
+                    let targetContainer = Array.from(document.querySelectorAll('.ticket-container'))
+                        .find(container => {
+                            const prefix = container.querySelector('.project-prefix').value;
+                            const number = container.querySelector('.ticket-number').value;
+                            return !prefix && !number;
+                        });
+                    
+                    // If no empty container found, add new one
+                    if (!targetContainer) {
+                        document.getElementById('addTicket').click();
+                        targetContainer = document.querySelector('.ticket-container:last-child');
+                    }
+                    
+                    // Extract project prefix and number
+                    const [prefix, number] = ticket.id.split('-');
+                    
+                    // Set values
+                    targetContainer.querySelector('.project-prefix').value = prefix;
+                    targetContainer.querySelector('.ticket-number').value = number;
+                    targetContainer.querySelector('.ticket-url').value = ticket.url;
+                    
+                    // Add ticket title to summary if not already present
+                    const summaryElem = document.getElementById('summary');
+                    const summaryLines = summaryElem.value.split('\n');
+                    const ticketHeader = `${ticket.id}: ${ticket.title}`;
+                    
+                    if (!summaryLines.includes(ticketHeader)) {
+                        summaryElem.value = summaryElem.value
+                            ? `${summaryElem.value}\n${ticketHeader}`
+                            : ticketHeader;
+                    }
+                } else if (ticket.action === 'remove') {
+                  // Find and remove the ticket
+                  const containers = document.querySelectorAll('.ticket-container');
+                  containers.forEach(container => {
+                      const prefix = container.querySelector('.project-prefix').value;
+                      const number = container.querySelector('.ticket-number').value;
+                      const ticketId = `${prefix}-${number}`;
+                      
+                      if (ticketId === ticket.id) {
+                          // Remove the container if it's not the last one
+                          if (containers.length > 1) {
+                              container.remove();
+                          } else {
+                              // Clear the fields if it's the last container
+                              container.querySelector('.project-prefix').value = '';
+                              container.querySelector('.ticket-number').value = '';
+                              container.querySelector('.ticket-url').value = '';
+                          }
+                          
+                          // Remove ticket header from summary
+                          const summaryElem = document.getElementById('summary');
+                          const summaryLines = summaryElem.value.split('\n');
+                          const ticketHeader = `${ticket.id}: ${ticket.title}`;
+                          const filteredLines = summaryLines.filter(line => !line.startsWith(ticketId));
+                          summaryElem.value = filteredLines.join('\n');
+                      }
+                  });
+                }
+            });
+            
+            // Clear pending tickets and save form data
+            chrome.storage.local.set({ 
+                pendingTickets: [],
+                formData: { ...formData, tickets: getTicketsFromForm() }
+            });
+            
+            // Update output
+            document.getElementById('generate').click();
+        }
+    });
+  }
+
+  // Helper function to get current tickets from form
+  function getTicketsFromForm() {
+      return Array.from(document.querySelectorAll('.ticket-container'))
+          .map(container => ({
+              prefix: container.querySelector('.project-prefix').value,
+              number: container.querySelector('.ticket-number').value,
+              url: container.querySelector('.ticket-url').value
+          }))
+          .filter(ticket => ticket.prefix && ticket.number);
+  }
 });
